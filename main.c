@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buozcan <buozcan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 16:04:19 by buozcan           #+#    #+#             */
-/*   Updated: 2024/08/13 19:32:21 by buozcan          ###   ########.fr       */
+/*   Updated: 2024/08/13 23:20:30 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	parse_field(t_main *main, char *argv)
 
 int	parse_args(t_main *main, char **argv, int argc)
 {
-	main->number_of_philosophers = parse_field(main, argv[1]);
-	if (!main->number_of_philosophers)
+	main->nbr_of_philo = parse_field(main, argv[1]);
+	if (!main->nbr_of_philo)
 		return (EXIT_FAILURE);
 	main->time_to_die = parse_field(main, argv[2]);
 	if (!main->time_to_die)
@@ -59,4 +59,9 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	if (init_philos(&main))
 		return (EXIT_FAILURE);
+	main.is_loop_break = 0;
+	while (!main.is_loop_break)
+	{
+		thread_handler(&main);
+	}
 }
