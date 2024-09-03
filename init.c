@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 16:53:38 by buozcan           #+#    #+#             */
-/*   Updated: 2024/08/13 23:07:35 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:38:48 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	init_forks(t_main *main)
 	while (i < main->nbr_of_philo)
 		if (pthread_mutex_init(&main->forks[i++], NULL))
 			return (free(main->philos), free(main->forks), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 static void	create_philo(t_main *main, t_philo *philo, int id)
@@ -38,7 +39,7 @@ static void	create_philo(t_main *main, t_philo *philo, int id)
 	philo->time_to_eat = main->time_to_eat;
 	philo->time_to_sleep = main->time_to_sleep;
 	philo->last_meal = get_current_time();
-	pthread_create(philo->thread, NULL,
+	pthread_create(&philo->thread, NULL,
 			&life_cycle, philo);
 }
 
@@ -52,6 +53,7 @@ int	init_philos(t_main *main)
 	if (init_forks(main))
 		return (EXIT_FAILURE);
 	main->start_time = get_current_time();
+	pthread_mutex_init(&main->print, NULL);
 	i = 0;
 	while (i < main->nbr_of_philo)
 	{

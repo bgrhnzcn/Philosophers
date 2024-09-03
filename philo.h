@@ -6,7 +6,7 @@
 /*   By: bgrhnzcn <bgrhnzcn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 16:04:33 by buozcan           #+#    #+#             */
-/*   Updated: 2024/08/13 23:20:22 by bgrhnzcn         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:47:13 by bgrhnzcn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef enum e_state
 typedef struct s_philo
 {
 	int					id;
-	pthread_t			*thread;
+	pthread_t			thread;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;
 	unsigned long		time_to_die;
@@ -45,12 +45,13 @@ typedef struct s_philo
 
 typedef struct s_main
 {
-	unsigned long		nbr_of_philo;
+	long		nbr_of_philo;
 	unsigned long		time_to_die;
 	unsigned long		time_to_eat;
 	unsigned long		time_to_sleep;
 	unsigned long		nbr_of_times_must_eat;
 	unsigned long long	start_time;
+	pthread_mutex_t		print;
 	pthread_mutex_t		*forks;
 	t_philo				*philos;
 	char				is_loop_break;
@@ -59,8 +60,9 @@ typedef struct s_main
 int					ft_isdigit(int c);
 int					ft_atoi(const char *str);
 int					init_philos(t_main *main);
-unsigned long long	get_current_time();
-void				life_cycle(t_philo *philo);
-void				thread_handler(t_main *main);
+unsigned long long	get_current_time(void);
+unsigned long long	get_run_time(t_main *main);
+void				*life_cycle(void *philo);
+int					thread_manager(t_main *main);
 
 #endif
